@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokopia — Cooking Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mint:      #b2f2bb;
+            --mint-lt:   #e6fffa;
+            --sky:       #a5d8ff;
+            --teal:      #4ecdc4;
+            --teal-dark: #2d8a55;
+            --forest:    #2d5e1a;
+            --cream:     #f8fff9;
+            --dark:      #1a2d1f;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(160deg, #d4f5d4 0%, #c8eed0 40%, #d0f0e8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* ── AMBIENT BG ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(178,242,187,0.35) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(165,216,255,0.25) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(200,238,208,0.2) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── FLOATING LEAVES ── */
+        .leaves { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .leaf {
+            position: absolute;
+            font-size: var(--sz, 1.2rem);
+            opacity: 0;
+            animation: floatLeaf var(--dur, 12s) linear var(--delay, 0s) infinite;
+        }
+        @keyframes floatLeaf {
+            0%   { opacity: 0; transform: translateY(110vh) rotate(0deg); }
+            10%  { opacity: 0.18; }
+            90%  { opacity: 0.12; }
+            100% { opacity: 0; transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh;
+            padding: 60px 24px 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d8a55, #4ecdc4);
+            color: white; font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            padding: 6px 20px; border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(45,138,85,0.3);
+            animation: fadeSlideDown 0.8s ease both;
+        }
+
+        .hero-logo {
+            width: 300px; max-width: 80vw;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 24px rgba(45,94,26,0.22));
+            margin-bottom: 16px;
+            animation: fadeSlideDown 0.9s ease 0.1s both;
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 8vw, 4.2rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a6b3a 0%, #2d8a55 50%, #1d7a60 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            filter: drop-shadow(0 2px 8px rgba(45,94,26,0.12));
+            animation: fadeSlideDown 1s ease 0.15s both;
+        }
+
+        .hero-sub {
+            color: #2d6040;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 400;
+            margin-top: 12px;
+            max-width: 480px;
+            line-height: 1.7;
+            animation: fadeSlideDown 1s ease 0.25s both;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            display: flex; align-items: center; gap: 14px;
+            margin: 40px auto;
+            width: min(460px, 90vw);
+            animation: fadeSlideDown 1s ease 0.35s both;
+        }
+        .divider-line { flex: 1; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(78,205,196,0.4), transparent); }
+        .divider-icon { font-size: 1.3rem; }
+
+        /* ── CARDS ── */
+        .cards-row {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 24px 20px;
+            position: relative; z-index: 1;
+            animation: fadeSlideUp 1s ease 0.45s both;
+        }
+
+        .nav-card {
+            background: rgba(255,255,255,0.88);
+            border-radius: 32px;
+            border: 2px solid rgba(255,255,255,0.95);
+            box-shadow: 0 20px 60px rgba(30,80,50,0.12), 0 4px 16px rgba(30,80,50,0.07);
+            backdrop-filter: blur(20px);
+            width: 300px;
+            padding: 40px 32px 36px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, rgba(178,242,187,0.18) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .nav-card::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal-dark), var(--teal));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 32px 72px rgba(30,80,50,0.18), 0 8px 24px rgba(30,80,50,0.1);
+        }
+
+        .nav-card:hover::after { transform: scaleX(1); }
+
+        .card-icon-wrap {
+            width: 90px; height: 90px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #e6fffa, #f0fff4);
+            border: 2px solid rgba(78,205,196,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 24px rgba(78,205,196,0.15);
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
+        }
+
+        .nav-card:hover .card-icon-wrap {
+            transform: scale(1.12) rotate(-3deg);
+            box-shadow: 0 12px 32px rgba(78,205,196,0.25);
+        }
+
+        .card-label {
+            font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.35rem; font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 0.82rem; font-weight: 400;
+            color: #4a7060;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .card-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+            color: white; font-family: 'Prompt', sans-serif;
+            font-size: 0.82rem; font-weight: 700;
+            padding: 11px 26px; border-radius: 50px;
+            border: none; cursor: pointer;
+            box-shadow: 0 6px 20px rgba(45,138,85,0.28);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(45,138,85,0.38);
+        }
+
+        .card-btn .arrow {
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-card:hover .card-btn .arrow {
+            transform: translateX(4px);
+        }
+
+        /* ── FEATURES STRIP ── */
+        .features {
+            position: relative; z-index: 1;
+            max-width: 760px; margin: 20px auto 0;
+            padding: 0 24px 80px;
+            animation: fadeSlideUp 1s ease 0.6s both;
+        }
+
+        .features-inner {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255,255,255,0.9);
+            border-radius: 24px;
+            padding: 28px 32px;
+            display: flex; gap: 0;
+            box-shadow: 0 10px 40px rgba(30,80,50,0.08);
+        }
+
+        .feat-item {
+            flex: 1;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .feat-item + .feat-item::before {
+            content: '';
+            position: absolute; left: 0; top: 15%; bottom: 15%;
+            width: 1.5px;
+            background: linear-gradient(180deg, transparent, rgba(78,205,196,0.3), transparent);
+        }
+
+        .feat-emoji { font-size: 1.6rem; display: block; margin-bottom: 8px; }
+
+        .feat-title {
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; color: var(--teal-dark);
+            margin-bottom: 4px;
+        }
+
+        .feat-text {
+            font-size: 0.75rem; color: #4a7060; line-height: 1.5;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            position: relative; z-index: 1;
+            text-align: center;
+            padding: 0 24px 48px;
+            color: #5a8a6a;
+            font-size: 0.78rem;
+            line-height: 1.8;
+            animation: fadeSlideUp 1s ease 0.7s both;
+        }
+
+        .footer a {
+            color: var(--teal-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 680px) {
+            .nav-card { width: 100%; max-width: 360px; }
+            .features-inner { flex-direction: column; gap: 20px; }
+            .feat-item + .feat-item::before { display: none; }
+            .feat-item { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Floating leaves -->
+<div class="leaves" id="leaves"></div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-badge">🌿 Pokopia</div>
+
+    <img class="hero-logo"
+         src="images/logo.png"
+         alt="Pokopia Logo"
+         onerror="this.style.display='none'; document.getElementById('heroTitle').style.display='block'">
+
+    <h1 class="hero-title" id="heroTitle" style="display:none;">Pokopia</h1>
+
+    <h2 class="hero-title" style="font-size: clamp(1.5rem, 4vw, 2.2rem); margin-top: 6px;">
+        🍳 Cooking Hub
+    </h2>
+
+    <p class="hero-sub">
+        ศูนย์รวมข้อมูลการทำอาหารใน Pokopia — ตั้งแต่ตำราสูตรอาหารทุกชนิด
+        ไปจนถึงเครื่องมือช่วยมิกซ์วัตถุดิบแบบ Real-time 🌱
+    </p>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-icon">🍃</span>
+        <div class="divider-line"></div>
+    </div>
+</section>
+
+<!-- ── NAVIGATION CARDS ── -->
+<div class="cards-row">
+
+    <!-- Guide Card -->
+    <a class="nav-card" href="guide.html">
+        <div class="card-icon-wrap">📖</div>
+        <div class="card-label">Cooking Guide</div>
+        <div class="card-title">ตำราอาหาร<br>ครบทุกสูตร</div>
+        <p class="card-desc">
+            รวมสูตรอาหารทุกประเภท พร้อมวัตถุดิบ รสชาติ และบัฟที่ได้ กรองตามรสได้ทันที
+        </p>
+        <span class="card-btn">
+            ดูตำราอาหาร <span class="arrow">→</span>
+        </span>
+    </a>
+
+    <!-- Mixer Card -->
+    <a class="nav-card" href="mixer.html">
+        <div class="card-icon-wrap">🧪</div>
+        <div class="card-label">Master Mixer</div>
+        <div class="card-title">มิกซ์วัตถุดิบ<br>แบบ Real-time</div>
+        <p class="card-desc">
+            เลือกอุปกรณ์ + วัตถุดิบแล้วกด Cook! ระบบจะบอกว่าได้เมนูอะไรพร้อมบัฟทันที
+        </p>
+        <span class="card-btn">
+            เปิด Mixer <span class="arrow">→</span>
+        </span>
+    </a>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+    <p>🌿 © COPYRIGHT 2026, Pokopia Cooking Hub by NAMJIT&nbsp;·&nbsp;  </p>
+    <p style="margin-top: 4px; font-size: 0.72rem; opacity: 0.7;">
+    </p>
+</div>
+
+<script>
+    // Generate floating leaves
+    const leafData = [
+        { emoji: '🍃', sz: '1.1rem' },
+        { emoji: '🌿', sz: '1rem' },
+        { emoji: '🍂', sz: '0.9rem' },
+        { emoji: '🌱', sz: '0.85rem' },
+        { emoji: '✨', sz: '0.8rem' },
+        { emoji: '🍀', sz: '1rem' },
+    ];
+
+    const leavesEl = document.getElementById('leaves');
+    for (let i = 0; i < 22; i++) {
+        const d = leafData[Math.floor(Math.random() * leafData.length)];
+        const el = document.createElement('span');
+        el.className = 'leaf';
+        el.innerText = d.emoji;
+        const left = Math.random() * 100;
+        const dur  = 10 + Math.random() * 14;
+        const delay = -(Math.random() * dur); // start mid-animation for immediate fill
+        el.style.cssText = `
+            left: ${left}%;
+            --sz: ${d.sz};
+            --dur: ${dur}s;
+            --delay: ${delay}s;
+        `;
+        leavesEl.appendChild(el);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokopia Ultimate Cooking Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mint:    #b2f2bb;
+            --mint-lt: #e6fffa;
+            --sky:     #a5d8ff;
+            --teal:    #4ecdc4;
+            --teal-dark: #2d8a55;
+            --forest:  #2d5e1a;
+            --cream:   #f8fff9;
+            --dark:    #1a2d1f;
+            --card-bg: rgba(255,255,255,0.88);
+            --shadow:  0 20px 60px rgba(30,80,50,0.12), 0 4px 16px rgba(30,80,50,0.08);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(160deg, #d4f5d4 0%, #c8eed0 40%, #d0f0e8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--dark);
+            padding: 30px 16px 60px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(178,242,187,0.35) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(165,216,255,0.25) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(200,238,208,0.2) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d8a55, #4ecdc4);
+            color: white; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 5px 18px; border-radius: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 16px rgba(45,138,85,0.25);
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a6b3a 0%, #2d8a55 50%, #1d7a60 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 6px rgba(45,94,26,0.15));
+        }
+
+        header p {
+            color: #2d6040;
+            font-size: 0.9rem;
+        }
+		
+        .header-logo {
+            width: 280px;
+            max-width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 16px rgba(45,94,26,0.2));
+            display: block;
+            margin: 0 auto 8px;
+        }
+		
+        .header-logo-fallback {
+            display: none;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a6b3a 0%, #2d8a55 50%, #1d7a60 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .search-bar {
+            display: flex; gap: 10px; justify-content: center;
+            flex-wrap: wrap; margin-bottom: 32px;
+        }
+
+        .btn-filter {
+            padding: 10px 22px; border-radius: 50px;
+            border: 2px solid rgba(78,205,196,0.35);
+            background: rgba(255,255,255,0.65);
+            cursor: pointer; transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+            font-weight: 700; font-size: 0.82rem;
+            font-family: 'Prompt', sans-serif;
+            color: #2d6040;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-filter:hover {
+            transform: translateY(-3px) scale(1.04);
+            border-color: var(--teal);
+            box-shadow: 0 8px 20px rgba(78,205,196,0.2);
+            background: rgba(255,255,255,0.9);
+        }
+
+        .btn-filter.active {
+            background: linear-gradient(135deg, var(--teal), var(--sky));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 24px rgba(78,205,196,0.35);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* ===== GLASS PANEL ===== */
+        .glass-panel {
+            background: var(--card-bg);
+            border-radius: 32px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 28px;
+            border: 2px solid rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute; top: -50px; right: -50px;
+            width: 160px; height: 160px;
+            background: radial-gradient(circle, rgba(178,242,187,0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            display: flex; align-items: center;
+            flex-wrap: wrap; gap: 12px;
+            border-bottom: 2px solid #d5f0e4;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--forest);
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .info-badge {
+            display: flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, #f0fff4, #e6fffa);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1.5px solid #c8eedd;
+        }
+
+        .label-text {
+            font-size: 0.7rem; color: #4e9c7c;
+            display: block; line-height: 1; margin-bottom: 3px;
+            font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+
+        .val-text {
+            font-weight: 700; font-size: 0.85rem; color: var(--forest);
+        }
+
+        .icon-box {
+            width: 36px; height: 36px;
+            background: white; border-radius: 10px;
+            background-size: cover; background-position: center;
+            border: 1.5px solid #c8eedd;
+            flex-shrink: 0;
+        }
+
+        .chip-img {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-color: #e8f5e9;
+            border: 1px solid #c8eedd;
+            flex-shrink: 0;
+        }
+
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        th {
+            padding: 8px 14px;
+            color: var(--teal);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+
+        td {
+            background: linear-gradient(135deg, #f8fff9, #f0fff4);
+            padding: 14px;
+            border-top: 1.5px solid #e0f5e8;
+            border-bottom: 1.5px solid #e0f5e8;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+
+        tr:hover td {
+            background: linear-gradient(135deg, #e6fffa, #f0fff4);
+            border-color: #b2f2bb;
+        }
+
+        td:first-child {
+            border-left: 1.5px solid #e0f5e8;
+            border-radius: 16px 0 0 16px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        td:last-child {
+            border-right: 1.5px solid #e0f5e8;
+            border-radius: 0 16px 16px 0;
+            text-align: center;
+        }
+
+        tr:hover td:first-child { border-left-color: var(--teal); }
+        tr:hover td:last-child  { border-right-color: var(--teal); }
+
+        .img-menu {
+            width: 44px; height: 44px;
+            background: white; border-radius: 12px;
+            display: inline-block;
+            margin-right: 12px;
+            background-size: cover;
+            border: 1.5px solid #d5f0e4;
+            flex-shrink: 0;
+        }
+
+        .chip {
+            background: rgba(255,255,255,0.8);
+            padding: 4px 10px 4px 5px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 3px 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1.5px solid #d5f0e4;
+            color: #1a4d32;
+            transition: 0.2s;
+        }
+
+        tr:hover .chip {
+            border-color: #b2f2bb;
+            background: white;
+        }
+
+        /* ===== FLAVOR TAGS ===== */
+        .f-tag {
+            padding: 5px 14px; border-radius: 50px;
+            font-size: 0.78rem; font-weight: 700;
+            color: white; min-width: 72px;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .f-spicy  { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .f-sweet  { background: linear-gradient(135deg, #f06292, #e91e8c); }
+        .f-bitter { background: linear-gradient(135deg, #27ae60, #1e8449); }
+        .f-sour   { background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #333; }
+        .f-dry    { background: linear-gradient(135deg, #e67e22, #ca6f1e); }
+        .f-none   { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+
+        /* ===== SKILL TAG ===== */
+        td .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #e6fffa, #f0fff4);
+            border: 1.5px solid #b2f2bb;
+            color: #1a6b3a;
+            padding: 4px 12px 4px 5px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        td .skill-tag .skill-img {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-color: white;
+            border: 1px solid #c8eedd;
+            flex-shrink: 0;
+        }
+
+        /* ===== QUICK REFERENCE ===== */
+        .flavor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .flavor-card {
+            background: linear-gradient(160deg, #f8fff9, #f0fff4);
+            padding: 16px 14px;
+            border-radius: 20px;
+            border-left: 5px solid #ccc;
+            border-top: 1.5px solid #e0f5e8;
+            border-right: 1.5px solid #e0f5e8;
+            border-bottom: 1.5px solid #e0f5e8;
+            transition: all 0.2s;
+        }
+
+        .flavor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30,80,50,0.1);
+        }
+
+        .flavor-card strong {
+            font-size: 0.9rem;
+            color: var(--dark);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .flavor-card small {
+            font-size: 0.78rem;
+            color: #4e7c5f;
+            line-height: 1.6;
+        }
+
+        .flavor-img-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .flavor-img {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            background-color: #e8f5e9;
+            border: 1.5px solid #d5f0e4;
+            transition: transform 0.18s, box-shadow 0.18s;
+            cursor: default;
+        }
+
+        .flavor-img:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 14px rgba(30,80,50,0.18);
+            border-color: #b2f2bb;
+            z-index: 1;
+        }
+
+        .ref-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--forest);
+            margin-bottom: 4px;
+        }
+
+        .ref-subtitle {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #4e9c7c;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* ===== SECTION TITLE BADGE ===== */
+        .section-badge {
+            display: inline-block;
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 3px 12px; border-radius: 20px;
+            background: linear-gradient(135deg, var(--teal), var(--sky));
+            color: white;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .glass-panel { padding: 22px 16px; }
+            .section-header { flex-direction: column; align-items: flex-start; }
+            header h1 { font-size: 1.8rem; }
+            td { font-size: 0.82rem; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-badge">📖 Cooking Guide by NAMJIT</div>
+        <img src="images/logo2.png" alt="Pokopia Master Mixer" class="header-logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';">
+		<div id="logoFallback" class="header-logo-fallback">🌿 Pokopia Master Mixer</div>
+        <p>รายการสูตรอาหาร</p>
+    </header>
+
+    <div class="search-bar">
+        <button class="btn-filter active" onclick="filterMenu('all', event)">ทั้งหมด</button>
+        <button class="btn-filter" onclick="filterMenu('spicy', event)">เผ็ด (SPICY)</button>
+        <button class="btn-filter" onclick="filterMenu('sweet', event)">หวาน (SWEET)</button>
+        <button class="btn-filter" onclick="filterMenu('bitter', event)">ขม (BITTER)</button>
+        <button class="btn-filter" onclick="filterMenu('sour', event)">เปรี้ยว (SOUR)</button>
+        <button class="btn-filter" onclick="filterMenu('dry', event)">ฝาด (DRY)</button>
+        <button class="btn-filter" onclick="filterMenu('none', event)">ปกติ (NORMAL)</button>
+    </div>
+
+    <!-- SALAD -->
+    <section class="glass-panel" data-section="salad">
+        <div class="section-header">
+            <h2>🥗 SALAD COLLECTION</h2>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/chopping_board.png')"></div>
+                <div><span class="label-text">อุปกรณ์</span><span class="val-text">Chopping Board</span></div>
+            </div>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/leafage.png')"></div><div><span class="label-text">บัฟ</span><span class="val-text">Leafage (เพิ่มปริมาณหญ้าที่งอกออกมา)</span></div>
+            </div>
+        </div>
+        <table>
+            <thead><tr><th>เมนูอาหาร</th><th>วัตถุดิบที่ใช้</th><th>สกิลผู้ช่วย</th><th>รสชาติ</th></tr></thead>
+            <tbody>
+                <tr data-flavor="none"><td><div class="img-menu" style="background-image: url('images/simple_salad.png')"></div>Simple salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-none">ปกติ (NORMAL)</span></td></tr>
+                <tr data-flavor="sweet"><td><div class="img-menu" style="background-image: url('images/leppa_salad.png')"></div>Leppa salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/leppa_berry.png')"></div>Leppa Berry</div></td><td>-</td><td><span class="f-tag f-sweet">หวาน (SWEET)</span></td></tr>
+                <tr data-flavor="bitter"><td><div class="img-menu" style="background-image: url('images/seaweed_salad.png')"></div>Seaweed salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/seaweed.png')"></div>Seaweed</div></td><td>-</td><td><span class="f-tag f-bitter">ขม (BITTER)</span></td></tr>
+                <tr data-flavor="sour"><td><div class="img-menu" style="background-image: url('images/shredded_salad.png')"></div>Shredded salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_chop.png')"></div>Chop</span></td><td><span class="f-tag f-sour">เปรี้ยว (SOUR)</span></td></tr>
+                <tr data-flavor="dry"><td><div class="img-menu" style="background-image: url('images/crushed_berry_salad.png')"></div>Crushed-berry salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/chesto_berry.png')"></div>Chesto Berry</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_crush.png')"></div>Crush</span></td><td><span class="f-tag f-dry">ฝาด (DRY)</span></td></tr>
+                <tr data-flavor="spicy"><td><div class="img-menu" style="background-image: url('images/crouton_salad.png')"></div>Crouton salad</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div><div class="chip"><div class="chip-img" style="background-image: url('images/any_bread.png')"></div>Bread อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-spicy">เผ็ด (SPICY)</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SOUP -->
+    <section class="glass-panel" data-section="soup">
+        <div class="section-header">
+            <h2>🍲 SOUP STATION</h2>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/cooking_pot.png')"></div>
+                <div><span class="label-text">อุปกรณ์</span><span class="val-text">Cooking Pot</span></div>
+            </div>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/water_gun.png')"></div><div><span class="label-text">บัฟ</span><span class="val-text">Water Gun (เพิ่มปริมาณน้ำที่ปล่อยออกมา)</span></div>
+            </div>
+        </div>
+        <table>
+            <thead><tr><th>เมนูอาหาร</th><th>วัตถุดิบที่ใช้</th><th>สกิลผู้ช่วย</th><th>รสชาติ</th></tr></thead>
+            <tbody>
+                <tr data-flavor="none"><td><div class="img-menu" style="background-image: url('images/simple_soup.png')"></div>Simple soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-none">ปกติ (NORMAL)</span></td></tr>
+                <tr data-flavor="bitter"><td><div class="img-menu" style="background-image: url('images/seaweed_soup.png')"></div>Seaweed soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/seaweed.png')"></div>Seaweed</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-bitter">ขม (BITTER)</span></td></tr>
+                <tr data-flavor="dry"><td><div class="img-menu" style="background-image: url('images/mushroom_soup.png')"></div>Mushroom soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/cave_mushrooms.png')"></div>Cave Mushrooms</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-dry">ฝาด (DRY)</span></td></tr>
+                <tr data-flavor="spicy"><td><div class="img-menu" style="background-image: url('images/electrifying_soup.png')"></div>Electrifying soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_generate.png')"></div>Generate</span></td><td><span class="f-tag f-spicy">เผ็ด (SPICY)</span></td></tr>
+                <tr data-flavor="spicy"><td><div class="img-menu" style="background-image: url('images/healthy_soup.png')"></div>Healthy soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/leaf.png')"></div>Leaf</div></td><td>-</td><td><span class="f-tag f-spicy">เผ็ด (SPICY)</span></td></tr>
+                <tr data-flavor="sour"><td><div class="img-menu" style="background-image: url('images/flavorful_soup.png')"></div>Flavorful soup</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_water.png')"></div>Fresh Water</div><div class="chip"><div class="chip-img" style="background-image: url('images/aspear_berry.png')"></div>Aspear Berry</div><div class="chip"><div class="chip-img" style="background-image: url('images/any_hamburger_steak.png')"></div>Hamburger Steak อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-sour">เปรี้ยว (SOUR)</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- BREAD -->
+    <section class="glass-panel" data-section="bread">
+        <div class="section-header">
+            <h2>🍞 BREAD BAKERY</h2>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/bread_oven.png')"></div>
+                <div><span class="label-text">อุปกรณ์</span><span class="val-text">Bread Oven</span></div>
+            </div>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/cut.png')"></div><div><span class="label-text">บัฟ</span><span class="val-text">Cut (เพิ่มรัศมีของการตัด)</span></div>
+            </div>
+        </div>
+        <table>
+            <thead><tr><th>เมนูอาหาร</th><th>วัตถุดิบที่ใช้</th><th>สกิลผู้ช่วย</th><th>รสชาติ</th></tr></thead>
+            <tbody>
+                <tr data-flavor="none"><td><div class="img-menu" style="background-image: url('images/simple_bread.png')"></div>Simple bread</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-none">ปกติ (NORMAL)</span></td></tr>
+                <tr data-flavor="sour"><td><div class="img-menu" style="background-image: url('images/leppa_bread.png')"></div>Leppa bread</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/leppa_berry.png')"></div>Leppa Berry</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-sour">เปรี้ยว (SOUR)</span></td></tr>
+                <tr data-flavor="spicy"><td><div class="img-menu" style="background-image: url('images/carrot_bread.png')"></div>Carrot bread</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/fresh_carrot.png')"></div>Fresh carrot</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-spicy">เผ็ด (SPICY)</span></td></tr>
+                <tr data-flavor="bitter"><td><div class="img-menu" style="background-image: url('images/recycled_bread.png')"></div>Recycled bread</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/any_bread.png')"></div>Bread อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_recycle.png')"></div>Recycle</span></td><td><span class="f-tag f-bitter">ขม (BITTER)</span></td></tr>
+                <tr data-flavor="sweet"><td><div class="img-menu" style="background-image: url('images/fluffy_bread.png')"></div>Fluffy bread</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/pecha_berry.png')"></div>Pecha Berry</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_water.png')"></div>Water</span></td><td><span class="f-tag f-sweet">หวาน (SWEET)</span></td></tr>
+                <tr data-flavor="spicy"><td><div class="img-menu" style="background-image: url('images/bread_bowl.png')"></div>Bread bowl</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/wheat.png')"></div>Wheat</div><div class="chip"><div class="chip-img" style="background-image: url('images/any_soup.png')"></div>Soup อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td><span class="skill-tag"><div class="skill-img" style="background-image: url('images/skill_burn.png')"></div>Burn</span></td><td><span class="f-tag f-spicy">เผ็ด (SPICY)</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- STEAK -->
+    <section class="glass-panel" data-section="steak">
+        <div class="section-header">
+            <h2>🥩 STEAK HOUSE</h2>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/frying_pan.png')"></div>
+                <div><span class="label-text">อุปกรณ์</span><span class="val-text">Frying Pan</span></div>
+            </div>
+            <div class="info-badge">
+                <div class="icon-box" style="background-image: url('images/rock_smash.png')"></div><div><span class="label-text">บัฟ</span><span class="val-text">Rock Smash (ทุบหินแข็งได้)</span></div>
+            </div>
+        </div>
+        <table>
+            <thead><tr><th>เมนูอาหาร</th><th>วัตถุดิบที่ใช้</th><th>สกิลผู้ช่วย</th><th>รสชาติ</th></tr></thead>
+            <tbody>
+                <tr data-flavor="none"><td><div class="img-menu" style="background-image: url('images/simple_steak.png')"></div>Simple hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้ ×3</div></td><td>-</td><td><span class="f-tag f-none">ปกติ (NORMAL)</span></td></tr>
+                <tr data-flavor="dry"><td><div class="img-menu" style="background-image: url('images/mushroom_steak.png')"></div>Mushroom hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/cave_mushrooms.png')"></div>Cave Mushrooms</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้ ×2</div></td><td>-</td><td><span class="f-tag f-dry">ฝาด (DRY)</span></td></tr>
+                <tr data-flavor="sour"><td><div class="img-menu" style="background-image: url('images/tomato_steak.png')"></div>Tomato hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/tomato.png')"></div>Tomato</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้ ×2</div></td><td>-</td><td><span class="f-tag f-sour">เปรี้ยว (SOUR)</span></td></tr>
+                <tr data-flavor="sweet"><td><div class="img-menu" style="background-image: url('images/potato_steak.png')"></div>Potato hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/potato.png')"></div>Potato</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้ ×2</div></td><td>-</td><td><span class="f-tag f-sweet">หวาน (SWEET)</span></td></tr>
+                <tr data-flavor="bitter"><td><div class="img-menu" style="background-image: url('images/bitter_steak.png')"></div>Bitter hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/rawst_berry.png')"></div>Rawst Berry</div><div class="chip"><div class="chip-img" style="background-image: url('images/lum_berry.png')"></div>Lum Berry</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-bitter">ขม (BITTER)</span></td></tr>
+                <tr data-flavor="none"><td><div class="img-menu" style="background-image: url('images/vibrant_steak.png')"></div>Vibrant hamburger steak</td><td><div class="chip"><div class="chip-img" style="background-image: url('images/bean.png')"></div>Bean</div><div class="chip"><div class="chip-img" style="background-image: url('images/potato.png')"></div>Potato</div><div class="chip"><div class="chip-img" style="background-image: url('images/any_salad.png')"></div>Salad อะไรก็ได้</div><div class="chip"><div class="chip-img" style="background-image: url('images/any.png')"></div>อะไรก็ได้</div></td><td>-</td><td><span class="f-tag f-none">ปกติ (NORMAL)</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- QUICK REFERENCE -->
+    <section class="glass-panel">
+        <div class="ref-title">🎯 วัตถุดิบแยกตามรสชาติ</div>
+        <div class="ref-subtitle">ไอเทมที่แบ่งตามรสชาติบางส่วน</div>
+        <div class="flavor-grid">
+            <div class="flavor-card" style="border-left-color: #e74c3c;">
+                <strong>🔥 เผ็ด (Spicy)</strong>
+                <div class="flavor-img-row">
+                    <div class="flavor-img" style="background-image: url('images/fresh_carrot.png')" title="Fresh carrot"></div>
+                    <div class="flavor-img" style="background-image: url('images/electrifying_soup.png')" title="Electrifying soup"></div>
+                    <div class="flavor-img" style="background-image: url('images/healthy_soup.png')" title="Healthy soup"></div>
+                    <div class="flavor-img" style="background-image: url('images/carrot_bread.png')" title="Carrot bread"></div>
+                    <div class="flavor-img" style="background-image: url('images/bread_bowl.png')" title="Bread bowl"></div>
+                </div>
+            </div>
+            <div class="flavor-card" style="border-left-color: #f06292;">
+                <strong>🍭 หวาน (Sweet)</strong>
+                <div class="flavor-img-row">
+                    <div class="flavor-img" style="background-image: url('images/pecha_berry.png')" title="Pecha Berry"></div>
+                    <div class="flavor-img" style="background-image: url('images/bean.png')" title="Bean"></div>
+                    <div class="flavor-img" style="background-image: url('images/leppa_salad.png')" title="Leppa salad"></div>
+                    <div class="flavor-img" style="background-image: url('images/fluffy_bread.png')" title="Fluffy bread"></div>
+                    <div class="flavor-img" style="background-image: url('images/potato_steak.png')" title="Potato hamburger steak"></div>
+                </div>
+            </div>
+            <div class="flavor-card" style="border-left-color: #27ae60;">
+                <strong>🌿 ขม (Bitter)</strong>
+                <div class="flavor-img-row">
+                    <div class="flavor-img" style="background-image: url('images/rawst_berry.png')" title="Rawst Berry"></div>
+                    <div class="flavor-img" style="background-image: url('images/seaweed.png')" title="Seaweed"></div>
+                    <div class="flavor-img" style="background-image: url('images/seaweed_soup.png')" title="Seaweed soup"></div>
+                    <div class="flavor-img" style="background-image: url('images/recycled_bread.png')" title="Recycled bread"></div>
+                    <div class="flavor-img" style="background-image: url('images/bitter_steak.png')" title="Bitter hamburger steak"></div>
+                </div>
+            </div>
+            <div class="flavor-card" style="border-left-color: #f1c40f;">
+                <strong>🍋 เปรี้ยว (Sour)</strong>
+                <div class="flavor-img-row">
+                    <div class="flavor-img" style="background-image: url('images/aspear_berry.png')" title="Aspear Berry"></div>
+                    <div class="flavor-img" style="background-image: url('images/tomato.png')" title="Tomato"></div>
+                    <div class="flavor-img" style="background-image: url('images/flavorful_soup.png')" title="Flavorful soup"></div>
+                    <div class="flavor-img" style="background-image: url('images/leppa_bread.png')" title="Leppa bread"></div>
+                    <div class="flavor-img" style="background-image: url('images/tomato_steak.png')" title="Tomato hamburger steak"></div>
+                </div>
+            </div>
+            <div class="flavor-card" style="border-left-color: #e67e22;">
+                <strong>🍂 ฝาด (Dry)</strong>
+                <div class="flavor-img-row">
+                    <div class="flavor-img" style="background-image: url('images/chesto_berry.png')" title="Chesto Berry"></div>
+                    <div class="flavor-img" style="background-image: url('images/cave_mushrooms.png')" title="Cave Mushrooms"></div>
+                    <div class="flavor-img" style="background-image: url('images/crushed_berry_salad.png')" title="Crushed-berry salad"></div>
+                    <div class="flavor-img" style="background-image: url('images/mushroom_soup.png')" title="Mushroom soup"></div>
+                    <div class="flavor-img" style="background-image: url('images/mushroom_steak.png')" title="Mushroom hamburger steak"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function filterMenu(flavor, event) {
+        document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+        if (event && event.currentTarget) event.currentTarget.classList.add('active');
+
+        const rows = document.querySelectorAll('tr[data-flavor]');
+        rows.forEach(row => {
+            row.style.display = (flavor === 'all' || row.getAttribute('data-flavor') === flavor) ? '' : 'none';
+        });
+
+        document.querySelectorAll('section[data-section]').forEach(sec => {
+            const visibleRows = sec.querySelectorAll('tr[data-flavor]');
+            let hasVisible = false;
+            visibleRows.forEach(r => { if (r.style.display !== 'none') hasVisible = true; });
+            sec.style.display = hasVisible ? '' : 'none';
+        });
+    }
+</script>
+
+</body>
+</html>
