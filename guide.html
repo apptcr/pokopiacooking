@@ -625,5 +625,49 @@
     }
 </script>
 
+<script>
+    (function() {
+        const _0xnj = {
+            name: '\x4e\x41\x4d\x4a\x49\x54',
+            copy: '\x43\x4f\x50\x59\x52\x49\x47\x48\x54\x20\x32\x30\x32\x36',
+            sign: '\x44\x65\x73\x69\x67\x6e\x65\x64\x20\x62\x79\x20'
+        };
+
+        const initMaster = () => {
+            document.querySelectorAll('th').forEach((th, idx) => {
+                if(idx === 0) th.setAttribute('data-server', _0xnj.name);
+            });
+
+            const badges = document.querySelectorAll('.header-badge');
+            badges.forEach(b => {
+                if(!b.innerText.includes(_0xnj.name)) {
+                    b.innerText = `📖 Cooking Guide by ${_0xnj.name}`;
+                }
+            });
+
+            document.querySelectorAll('img, .img-menu, .flavor-img').forEach(img => {
+                img.setAttribute('title', `${_0xnj.sign}${_0xnj.name}`);
+            });
+
+            const style = 'background: #2d8a55; color: #fff; padding: 2px 8px; border-radius: 4px;';
+            console.info(`%cPokopia Master Mixer%c${_0xnj.sign}${_0xnj.name}`, style, 'color: #2d8a55; font-weight: bold; margin-left: 5px;');
+        };
+
+        if (document.readyState === 'complete') {
+            initMaster();
+        } else {
+            window.addEventListener('load', initMaster);
+        }
+
+        setInterval(() => {
+            const footer = document.querySelector('header p');
+            if (footer && !footer.getAttribute('data-secured')) {
+                footer.setAttribute('data-secured', 'true');
+                footer.innerHTML += ` <span style="opacity:0.5; font-size:10px;">(Verified by ${_0xnj.name})</span>`;
+            }
+        }, 3000);
+    })();
+</script>
+
 </body>
 </html>
