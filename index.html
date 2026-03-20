@@ -9,7 +9,7 @@
         :root {
             --mint:      #b2f2bb;
             --mint-lt:   #e6fffa;
-            --sky:       #a5d8ff;
+            --sky:        #a5d8ff;
             --teal:      #4ecdc4;
             --teal-dark: #2d8a55;
             --forest:    #2d5e1a;
@@ -28,7 +28,6 @@
             overflow-x: hidden;
         }
 
-        /* ── AMBIENT BG ── */
         body::before {
             content: '';
             position: fixed; inset: 0;
@@ -40,7 +39,6 @@
             z-index: 0;
         }
 
-        /* ── FLOATING LEAVES ── */
         .leaves { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
         .leaf {
             position: absolute;
@@ -55,7 +53,6 @@
             100% { opacity: 0; transform: translateY(-10vh) rotate(360deg); }
         }
 
-        /* ── HERO ── */
         .hero {
             position: relative; z-index: 1;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -105,7 +102,6 @@
             animation: fadeSlideDown 1s ease 0.25s both;
         }
 
-        /* ── DIVIDER ── */
         .divider {
             display: flex; align-items: center; gap: 14px;
             margin: 40px auto;
@@ -115,7 +111,6 @@
         .divider-line { flex: 1; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(78,205,196,0.4), transparent); }
         .divider-icon { font-size: 1.3rem; }
 
-        /* ── CARDS ── */
         .cards-row {
             display: flex;
             gap: 24px;
@@ -233,51 +228,6 @@
             transform: translateX(4px);
         }
 
-        /* ── FEATURES STRIP ── */
-        .features {
-            position: relative; z-index: 1;
-            max-width: 760px; margin: 20px auto 0;
-            padding: 0 24px 80px;
-            animation: fadeSlideUp 1s ease 0.6s both;
-        }
-
-        .features-inner {
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(255,255,255,0.9);
-            border-radius: 24px;
-            padding: 28px 32px;
-            display: flex; gap: 0;
-            box-shadow: 0 10px 40px rgba(30,80,50,0.08);
-        }
-
-        .feat-item {
-            flex: 1;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-        }
-
-        .feat-item + .feat-item::before {
-            content: '';
-            position: absolute; left: 0; top: 15%; bottom: 15%;
-            width: 1.5px;
-            background: linear-gradient(180deg, transparent, rgba(78,205,196,0.3), transparent);
-        }
-
-        .feat-emoji { font-size: 1.6rem; display: block; margin-bottom: 8px; }
-
-        .feat-title {
-            font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
-            text-transform: uppercase; color: var(--teal-dark);
-            margin-bottom: 4px;
-        }
-
-        .feat-text {
-            font-size: 0.75rem; color: #4a7060; line-height: 1.5;
-        }
-
-        /* ── FOOTER ── */
         .footer {
             position: relative; z-index: 1;
             text-align: center;
@@ -288,15 +238,6 @@
             animation: fadeSlideUp 1s ease 0.7s both;
         }
 
-        .footer a {
-            color: var(--teal-dark);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .footer a:hover { text-decoration: underline; }
-
-        /* ── ANIMATIONS ── */
         @keyframes fadeSlideDown {
             from { opacity: 0; transform: translateY(-24px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -307,27 +248,21 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── RESPONSIVE ── */
         @media (max-width: 680px) {
             .nav-card { width: 100%; max-width: 360px; }
-            .features-inner { flex-direction: column; gap: 20px; }
-            .feat-item + .feat-item::before { display: none; }
-            .feat-item { padding: 0; }
         }
     </style>
 </head>
 <body>
 
-<!-- Floating leaves -->
 <div class="leaves" id="leaves"></div>
 
-<!-- ── HERO ── -->
 <section class="hero">
     <div class="hero-badge">🌿 Pokopia</div>
 
-    <img class="hero-logo"
-         src="images/logo.png"
-         alt="Pokopia Logo"
+    <img class="hero-logo" 
+         src="images/logo.png" 
+         alt="Pokopia Logo" 
          onerror="this.style.display='none'; document.getElementById('heroTitle').style.display='block'">
 
     <h1 class="hero-title" id="heroTitle" style="display:none;">Pokopia</h1>
@@ -348,29 +283,26 @@
     </div>
 </section>
 
-<!-- ── NAVIGATION CARDS ── -->
 <div class="cards-row">
 
-    <!-- Guide Card -->
     <a class="nav-card" href="guide.html">
         <div class="card-icon-wrap">📖</div>
         <div class="card-label">Cooking Guide</div>
         <div class="card-title">ตำราอาหาร<br>ครบทุกสูตร</div>
         <p class="card-desc">
-            รวมสูตรอาหารทุกประเภท พร้อมวัตถุดิบ รสชาติ และบัฟที่ได้ กรองตามรสได้ทันที
+            รวมสูตรอาหารทุกประเภท พร้อมวัตถุดิบ รสชาติ และบัฟที่ได้
         </p>
         <span class="card-btn">
-            ดูตำราอาหาร <span class="arrow">→</span>
+            ดูสูตรอาหาร <span class="arrow">→</span>
         </span>
     </a>
 
-    <!-- Mixer Card -->
     <a class="nav-card" href="mixer.html">
         <div class="card-icon-wrap">🧪</div>
-        <div class="card-label">Master Mixer</div>
-        <div class="card-title">มิกซ์วัตถุดิบ<br>แบบ Real-time</div>
+        <div class="card-label">Cooking Mixer</div>
+        <div class="card-title">ผสมวัตถุดิบ<br>แบบ Real-time</div>
         <p class="card-desc">
-            เลือกอุปกรณ์ + วัตถุดิบแล้วกด Cook! ระบบจะบอกว่าได้เมนูอะไรพร้อมบัฟทันที
+            เลือกอุปกรณ์ + วัตถุดิบแล้วกดปรุงอาหาร ระบบจะบอกว่าได้เมนูอะไรพร้อมบัฟทันที
         </p>
         <span class="card-btn">
             เปิด Mixer <span class="arrow">→</span>
@@ -379,41 +311,49 @@
 
 </div>
 
-<!-- ── FOOTER ── -->
 <div class="footer">
-    <p>🌿 © COPYRIGHT 2026, Pokopia Cooking Hub by NAMJIT&nbsp;·&nbsp;  </p>
-    <p style="margin-top: 4px; font-size: 0.72rem; opacity: 0.7;">
-    </p>
+    <p>🌿 © COPYRIGHT 2026, Pokopia Cooking Hub by NAMJIT· </p>
 </div>
 
 <script>
-    // Generate floating leaves
-    const leafData = [
-        { emoji: '🍃', sz: '1.1rem' },
-        { emoji: '🌿', sz: '1rem' },
-        { emoji: '🍂', sz: '0.9rem' },
-        { emoji: '🌱', sz: '0.85rem' },
-        { emoji: '✨', sz: '0.8rem' },
-        { emoji: '🍀', sz: '1rem' },
-    ];
+    (function(_0xnj1, _0xnj2) {
+        const _0xnj3 = {
+            '\x61\x75\x74\x68\x6f\x72': '\x4e\x41\x4d\x4a\x49\x54',
+            '\x73\x79\x73\x74\x65\x6d': '\x50\x6f\x6b\x6f\x70\x69\x61'
+        };
+        
+        const _0xleafCfg = [
+            { e: '🍃', s: '1.1rem' }, { e: '🌿', s: '1rem' },
+            { e: '🍂', s: '0.9rem' }, { e: '🌱', s: '0.85rem' },
+            { e: '✨', s: '0.8rem' }, { e: '🍀', s: '1rem' }
+        ];
 
-    const leavesEl = document.getElementById('leaves');
-    for (let i = 0; i < 22; i++) {
-        const d = leafData[Math.floor(Math.random() * leafData.length)];
-        const el = document.createElement('span');
-        el.className = 'leaf';
-        el.innerText = d.emoji;
-        const left = Math.random() * 100;
-        const dur  = 10 + Math.random() * 14;
-        const delay = -(Math.random() * dur); // start mid-animation for immediate fill
-        el.style.cssText = `
-            left: ${left}%;
-            --sz: ${d.sz};
-            --dur: ${dur}s;
-            --delay: ${delay}s;
-        `;
-        leavesEl.appendChild(el);
-    }
+        const _0xparent = document.getElementById('leaves');
+        
+        console.log(`%c ${_0xnj3.system} %c By ${_0xnj3.author} `, "background:#2d8a55;color:#fff;padding:5px;", "background:#4ecdc4;color:#fff;padding:5px;");
+
+        for (let i = 0; i < 22; i++) {
+            const _0xidx = Math.floor(Math.random() * _0xleafCfg.length);
+            const _0xcur = _0xleafCfg[_0xidx];
+            const _0xel = document.createElement('span');
+            
+            _0xel.className = 'leaf';
+            _0xel.innerText = _0xcur.e;
+            _0xel.setAttribute('data-nj-auth', _0xnj3.author);
+            
+            const _0xlft = Math.random() * 100;
+            const _0xdur = 10 + Math.random() * 14;
+            const _0xdly = -(Math.random() * _0xdur);
+            
+            _0xel.style.cssText = `
+                left: ${_0xlft}%;
+                --sz: ${_0xcur.s};
+                --dur: ${_0xdur}s;
+                --delay: ${_0xdly}s;
+            `;
+            _0xparent.appendChild(_0xel);
+        }
+    })(window, document);
 </script>
 </body>
 </html>
