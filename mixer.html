@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokopia Master Mixer - Pastel Forest Edition</title>
+    <title>Pokopia Cooking Mixer by NAMJIT</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -79,7 +79,6 @@
             max-width: 860px; width: 100%; position: relative; z-index: 1;
         }
 
-        /* ===== HEADER ===== */
         header {
             text-align: center; margin-bottom: 36px;
         }
@@ -107,7 +106,6 @@
             font-size: 0.9rem; margin-top: 8px;
         }
 
-        /* ===== CARD ===== */
         .mixer-card {
             background: rgba(255,255,255,0.88);
             border-radius: 32px;
@@ -126,14 +124,12 @@
             pointer-events: none;
         }
 
-        /* ===== SECTION TITLE ===== */
         .section-title {
             font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
             text-transform: uppercase; color: var(--teal);
             margin-bottom: 10px;
         }
 
-        /* ===== EQUIP SELECTOR ===== */
         .equip-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -200,7 +196,6 @@
             transform: scale(1.08);
         }
 
-        /* ===== SLOTS ===== */
         .slots-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -259,7 +254,6 @@
         .slot-card select:focus { border-color: var(--teal); outline: none; box-shadow: 0 0 0 3px rgba(78,205,196,0.15); }
         .slot-card select:disabled { background-color: #f0fff4; border-color: #b2f2bb; cursor: default; color: #2d5e1a; }
 
-        /* ===== COOK BUTTON ===== */
         .btn-cook {
             width: 100%; padding: 18px;
             border-radius: 20px; border: none;
@@ -287,7 +281,6 @@
             50%      { transform: scale(0.95); box-shadow: 0 4px 16px rgba(78,205,196,0.2); }
         }
 
-        /* ===== RESULT AREA ===== */
         .result-area {
             margin-top: 32px;
             background: linear-gradient(160deg, #f8fff9 0%, #e6fffa 100%);
@@ -344,7 +337,6 @@
         .res-info strong { color: var(--teal); }
         .equip-icon { width: 48px; height: 48px; object-fit: contain; }
 
-        /* ===== PARTICLES ===== */
         .particle {
             position: fixed; pointer-events: none; z-index: 999;
             font-size: 1.5rem; opacity: 0;
@@ -355,7 +347,6 @@
             100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); }
         }
 
-        /* ===== DIVIDER ===== */
         .divider {
             height: 1.5px;
             background: linear-gradient(90deg, transparent, #d5f0e4, transparent);
@@ -379,8 +370,8 @@
         <div class="header-badge">🌿 Cooking Mixer by NAMJIT</div>
         <img src="images/logo.png" alt="Pokopia Master Mixer" class="header-logo"
              onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';">
-        <div id="logoFallback" class="header-logo-fallback">🌿 Pokopia Master Mixer</div>
-        <p>ปลดปล่อยพลังแห่งธรรมชาติในเมนูอาหารของคุณ</p>
+        <div id="logoFallback" class="header-logo-fallback">🌿 Pokopia Cooking Mixer</div>
+        <p>ลองผสมวัตถุดิบได้ตามสบาย</p>
     </header>
 
     <div class="mixer-card">
@@ -456,7 +447,6 @@
 </div>
 
 <script>
-    // ===== STARS GENERATION =====
     const starsEl = document.getElementById('stars');
     for (let i = 0; i < 60; i++) {
         const s = document.createElement('div');
@@ -475,18 +465,7 @@
         pan:      { base: "Bean", slots: 4, buff: "Rock Smash (สามารถทุบหินได้ง่ายขึ้น และทุบหินแข็ง ๆ ได้)", img: "images/frying_pan.png", baseImg: "images/bean.png" }
     };
 
-    // หมายเหตุ skill matching:
-    // - สูตรที่ skill:"" = ทำได้โดยไม่ต้องใช้สกิล (แต่ถ้ามีผู้ช่วยก็ยังทำได้)
-    // - สูตรที่ skill:"Xxx" = ต้องใช้ผู้ช่วยที่มีสกิลนั้นเท่านั้น
-    //
-    // "Any Bread" = วัตถุดิบที่เป็นขนมปังอะไรก็ได้
-    // "Any Soup"  = วัตถุดิบที่เป็นซุปอะไรก็ได้
-    // "Any Salad" = วัตถุดิบที่เป็นสลัดอะไรก็ได้
-    // "Any Hamburger Steak" = วัตถุดิบที่เป็นสเต็กอะไรก็ได้
-    // "Any"       = อะไรก็ได้ (wildcard ทุกอย่าง)
-
     const recipes = [
-        // === CHOPPING BOARD (Salad) ===
         { equip:"chopping", items:["Leaf","Leppa Berry"],  skill:"",      name:"Leppa salad",         flavor:"Sweet",  color:"#ff9ff3", img:"images/leppa_salad.png" },
         { equip:"chopping", items:["Leaf","Seaweed"],      skill:"",      name:"Seaweed salad",        flavor:"Bitter", color:"#27ae60", img:"images/seaweed_salad.png" },
         { equip:"chopping", items:["Leaf","Any"],          skill:"Chop",  name:"Shredded salad",       flavor:"Sour",   color:"#f1c40f", img:"images/shredded_salad.png" },
@@ -494,7 +473,6 @@
         { equip:"chopping", items:["Leaf","Any Bread"],    skill:"",      name:"Crouton salad",        flavor:"Spicy",  color:"#e74c3c", img:"images/crouton_salad.png" },
         { equip:"chopping", items:["Leaf","Any"],          skill:"",      name:"Simple salad",         flavor:"Normal", color:"#bdc3c7", img:"images/simple_salad.png" },
 
-        // === COOKING POT (Soup) ===
         { equip:"pot", items:["Fresh Water","Seaweed","Any"],               skill:"",         name:"Seaweed soup",      flavor:"Bitter", color:"#27ae60", img:"images/seaweed_soup.png" },
         { equip:"pot", items:["Fresh Water","Cave Mushrooms","Any"],        skill:"",         name:"Mushroom soup",     flavor:"Dry",    color:"#e67e22", img:"images/mushroom_soup.png" },
         { equip:"pot", items:["Fresh Water","Any","Any"],                   skill:"Generate", name:"Electrifying soup", flavor:"Spicy",  color:"#e74c3c", img:"images/electrifying_soup.png" },
@@ -502,7 +480,6 @@
         { equip:"pot", items:["Fresh Water","Aspear Berry","Any Hamburger Steak"], skill:"", name:"Flavorful soup",    flavor:"Sour",   color:"#f1c40f", img:"images/flavorful_soup.png" },
         { equip:"pot", items:["Fresh Water","Any","Any"],                   skill:"",         name:"Simple soup",       flavor:"Normal", color:"#bdc3c7", img:"images/simple_soup.png" },
 
-        // === BREAD OVEN (Bread) ===
         { equip:"oven", items:["Wheat","Leppa Berry","Any"],  skill:"",       name:"Leppa bread",     flavor:"Sour",   color:"#f1c40f", img:"images/leppa_bread.png" },
         { equip:"oven", items:["Wheat","Fresh carrot","Any"], skill:"",       name:"Carrot bread",    flavor:"Spicy",  color:"#e74c3c", img:"images/carrot_bread.png" },
         { equip:"oven", items:["Wheat","Any Bread","Any"],    skill:"Recycle",name:"Recycled bread",  flavor:"Bitter", color:"#27ae60", img:"images/recycled_bread.png" },
@@ -510,7 +487,6 @@
         { equip:"oven", items:["Wheat","Any Soup","Any"],     skill:"Burn",   name:"Bread bowl",      flavor:"Spicy",  color:"#e74c3c", img:"images/bread_bowl.png" },
         { equip:"oven", items:["Wheat","Any","Any"],          skill:"",       name:"Simple bread",    flavor:"Normal", color:"#bdc3c7", img:"images/simple_bread.png" },
 
-        // === FRYING PAN (Steak) ===
         { equip:"pan", items:["Bean","Cave Mushrooms","Any","Any"],          skill:"", name:"Mushroom hamburger steak", flavor:"Dry",    color:"#e67e22", img:"images/mushroom_steak.png" },
         { equip:"pan", items:["Bean","Tomato","Any","Any"],                  skill:"", name:"Tomato hamburger steak",   flavor:"Sour",   color:"#f1c40f", img:"images/tomato_steak.png" },
         { equip:"pan", items:["Bean","Potato","Any Salad","Any"],            skill:"", name:"Vibrant hamburger steak",  flavor:"Normal", color:"#bdc3c7", img:"images/vibrant_steak.png" },
@@ -519,7 +495,6 @@
         { equip:"pan", items:["Bean","Any","Any","Any"],                     skill:"", name:"Simple hamburger steak",   flavor:"Normal", color:"#bdc3c7", img:"images/simple_steak.png" }
     ];
 
-    // กลุ่มวัตถุดิบ "Any Xxx" — ใช้ตรวจสอบว่าของที่เลือกอยู่ในกลุ่มนี้ไหม
     const anyGroups = {
         "Any Bread":           ["Simple bread","Leppa bread","Carrot bread","Recycled bread","Fluffy bread","Bread bowl",
                                 "Simple salad","Leppa salad","Seaweed salad","Shredded salad","Crushed-berry salad","Crouton salad",
@@ -533,29 +508,20 @@
                                 "Any Hamburger Steak"]
     };
 
-    // ตรวจว่า ingredient ที่เลือกตรงกับ requirement ไหม
-    // req = สิ่งที่สูตรต้องการ (เช่น "Any Bread", "Seaweed", "Any")
-    // val = สิ่งที่ผู้เล่นเลือก
 	function itemMatches(req, val) {
 		if (req === val) return true;
-		// "Any" match ได้ทุกอย่าง ยกเว้น item ที่เป็น "Any Xxx" group key
 		if (req === "Any") return !Object.keys(anyGroups).includes(val);
 		if (anyGroups[req]) return anyGroups[req].includes(val);
 		return false;
 	}
 
-    // หา recipe ที่ตรงกับ equip + skill + ของที่เลือก
-    // priority: สูตรที่ต้องใช้สกิลตรง ๆ ก่อน แล้วค่อย fallback สูตรที่ไม่ต้องใช้สกิล
     function findMatch(equip, skill, chosen) {
-        // รอบที่ 1: หาสูตรที่ skill ตรงกัน (ถ้า skill="" ก็หาสูตรที่ skill:"" ก่อน)
         let match = recipes.find(r => {
             if (r.equip !== equip) return false;
             if (r.skill !== skill) return false;
             return recipeItemsMatch(r.items, chosen);
         });
 
-        // รอบที่ 2: ถ้ามีผู้ช่วย (skill != "") แต่ไม่เจอสูตรที่ต้องใช้สกิลนั้น
-        //           → ลอง fallback หาสูตรที่ skill:"" แทน (เมนูปกติที่ผู้ช่วยช่วยไม่ได้)
         if (!match && skill !== "") {
             match = recipes.find(r => {
                 if (r.equip !== equip) return false;
@@ -567,12 +533,10 @@
         return match;
     }
 
-    // ตรวจว่าวัตถุดิบที่เลือกครบตามที่สูตรต้องการไหม
     function recipeItemsMatch(reqItems, chosen) {
         let tempChosen = [...chosen];
         for (let req of reqItems) {
-            if (req === "Any") continue; // wildcard ข้ามไป
-            // หาของที่ตรงกับ req ใน tempChosen
+            if (req === "Any") continue;
             let idx = tempChosen.findIndex(val => itemMatches(req, val));
             if (idx !== -1) {
                 tempChosen.splice(idx, 1);
